@@ -24,4 +24,4 @@ app.use(
 );
 
 
-app.listen(PORT);  
+app.listen({ port: PORT });
