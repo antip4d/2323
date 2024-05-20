@@ -11,7 +11,7 @@ const { pagesRouter } = require('./routes/pages');
 // const cors = require('./middlewares/cors');
 
 const app = express();
-const PORT = 3001n;
+const PORT = 3001;
 
 connectToDatabase();
 app.use(
