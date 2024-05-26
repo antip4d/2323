@@ -71,6 +71,20 @@ const checkIsCategoryExists = async (req, res, next) => {
         next();
     }
 };
+const updateCategory2 = async (req, res, next) => {
+    try {
+        const existingCategory = await categories.findOne({ name: req.body.name });
+        if (existingCategory && existingCategory._id != req.params.id) {
+            return res.status(400).send({ message: "Категория с таким названием уже существует" });
+        }
+
+        req.category = await categories.findByIdAndUpdate(req.params.id, req.body);
+        next();
+    } catch (error) {
+        res.status(400).send({ message: "Ошибка обновления категории" });
+    }
+};
+
 
 // Экспортируем функцию поиска всех категорий
-module.exports = { findCategoryById, findAllCategories, createCategory, updateCategory, deleteCategory, checkEmptyName,checkIsCategoryExists };
+module.exports = { findCategoryById, findAllCategories, createCategory, updateCategory,updateCategory2, deleteCategory, checkEmptyName, checkIsCategoryExists };

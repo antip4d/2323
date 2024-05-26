@@ -121,7 +121,23 @@ const checkIsVoteRequest = async (req, res, next) => {
         req.isVoteRequest = true;
     }
     next();
+};const updateGame2 = async (req, res, next) => {
+    try {
+        // Проверяем, что новое название игры не совпадает с названием другой игры
+        const gameWithSameTitle = await games.findOne({ title: req.body.title });
+        if (gameWithSameTitle && gameWithSameTitle._id != req.params.id) {
+            res.status(400).send({ message: "Игра с таким названием уже существует" });
+            return;
+        }
+
+        // Обновляем игру, если проверка прошла успешно
+        req.game = await games.findByIdAndUpdate(req.params.id, req.body);
+        next();
+    } catch (error) {
+        res.status(400).send({ message: "Ошибка обновления игры" });
+    }
 };
+
 // Экспортируем функцию поиска всех игр
-module.exports = { createGame, findAllGames, findGameById,checkIsVoteRequest, updateGame, deleteGame, checkEmptyFields, checkIsGameExists, checkIfCategoriesAvaliable, checkIfUsersAreSafe };
+module.exports = { createGame, findAllGames, findGameById,checkIsVoteRequest, updateGame, deleteGame, checkEmptyFields, checkIsGameExists, checkIfCategoriesAvaliable, checkIfUsersAreSafe, updateGame2 };
 
