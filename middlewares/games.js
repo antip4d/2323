@@ -95,12 +95,18 @@ const checkIsGameExists = async (req, res, next) => {
     }
 };
 const checkIfCategoriesAvaliable = async (req, res, next) => {
-    if (!req.body.categories || req.body.categories.length === 0) {
-        res.setHeader("Content-Type", "application/json");
-        res.status(400).send(JSON.stringify({ message: "Выберите хотя бы одну категорию" }));
-    } else {
-        next();
-    }
+  //Проверка выполняется в начале, до выполнения основной проверки 
+  if (req.isVoteRequest) {
+     next();
+     // return нужен чтобы код не шел дальше в этой функции
+     return;
+  }
+  if (!req.body.categories || req.body.categories.length === 0) {
+      res.setHeader("Content-Type", "application/json");
+      res.status(400).send(JSON.stringify({ message: "Выберите хотя бы одну категорию" }));
+  } else {
+      next();
+  }
 };
 const checkIfUsersAreSafe = async (req, res, next) => {
     if (!req.body.users) {
