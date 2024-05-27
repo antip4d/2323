@@ -10,7 +10,7 @@ gamesRouter.post("/games",findAllGames,checkIsGameExists,checkIfCategoriesAvalia
 // Файл routes/games.js
 gamesRouter.get("/games/:id", findGameById, sendGameById);
 // Пока запишем порядок действий псевдокодом 
-gamesRouter.put("/games/:id",findGameById,checkIfUsersAreSafe,//checkIfCategoriesAvaliable,checkEmptyFields,checkAuth,checkIsVoteRequest,updateGame,updateGame2,sendGameUpdated); 
+gamesRouter.put("/games/:id",findGameById,checkIfUsersAreSafe,checkIfCategoriesAvaliable,checkEmptyFields,checkAuth,checkIsVoteRequest,updateGame,updateGame2,sendGameUpdated); 
 
 gamesRouter.delete( "/games/:id",checkAuth, deleteGame,sendGameDeleted // 
 );
