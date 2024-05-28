@@ -70,14 +70,19 @@ const deleteGame = async (req, res, next) => {
     }
 };
 const checkEmptyFields = async (req, res, next) => {
-  if (!req.body.title || !req.body.description || !req.body.image || !req.body.link || !req.body.developer) {
-    res.setHeader("Content-Type",
-      "application/json");
-    res.status(400).send(JSON.stringify({
-      message: "Заполните все поля"
-    }));
-  } else { // Проверяем, является ли запрос запросом на голосование 
-    if (Object.keys(req.body).length === 1 && req.body.users) { req.isVoteRequest = true; } 
+  if (req.isVoteRequest) {
+    next();
+    return;
+  }
+  if (
+    !req.body.title ||
+    !req.body.description ||
+    !req.body.image || !req.body.link ||
+    !req.body.developer
+  ) {
+    res.setHeader("Content-Type", "application/json");
+    res.status(400).send(JSON.stringify({ message: "Заполните все поля" }));
+  } else {
     next();
   }
 };
